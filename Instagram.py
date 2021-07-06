@@ -22,26 +22,44 @@ class Instagram:
 
     def create_account(self):
         if self.__driver.current_url == 'https://www.instagram.com/accounts/emailsignup/':
-            self.__driver.implicitly_wait(5)
-            self.__driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div[1]/div/form/div[3]/div/label/input').send_keys(self.__my_mail.get_email_address())
-            self.__driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div[1]/div/form/div[4]/div/label/input').send_keys(self.__name)
+            time.sleep(3)
+            self.__driver.find_element_by_xpath(
+                '//*[@id="react-root"]/section/main/div/div/div[1]/div/form/div[3]/div/label/input').send_keys(
+                self.__my_mail.get_email_address())
+            self.__driver.find_element_by_xpath(
+                '//*[@id="react-root"]/section/main/div/div/div[1]/div/form/div[4]/div/label/input').send_keys(
+                self.__name)
             self.__username = '_'.join(self.__gib.generate_word(4))
             while len(self.__username) > 30:
                 self.__username = '_'.join(self.__gib.generate_word(4))
-            self.__driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div[1]/div/form/div[5]/div/label/input').send_keys(self.__username)
-            self.__driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div[1]/div/form/div[6]/div/label/input').send_keys(self.__password)
-            self.__driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div[1]/div/form/div[7]/div/button').click()
+            self.__driver.find_element_by_xpath(
+                '//*[@id="react-root"]/section/main/div/div/div[1]/div/form/div[5]/div/label/input').send_keys(
+                self.__username)
+            self.__driver.find_element_by_xpath(
+                '//*[@id="react-root"]/section/main/div/div/div[1]/div/form/div[6]/div/label/input').send_keys(
+                self.__password)
+            self.__driver.find_element_by_xpath(
+                '//*[@id="react-root"]/section/main/div/div/div[1]/div/form/div[7]/div/button').click()
             rand_year = random.randint(1970, 2005)
             rand_day = random.randint(1, 28)
             rand_month = random.randint(1, 12)
-            month_selector = Select(self.__driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div[1]/div/div[4]/div/div/span/span[1]/select'))
+            self.__driver.implicitly_wait(2)
+            month_selector = Select(self.__driver.find_element_by_xpath(
+                '//*[@id="react-root"]/section/main/div/div/div[1]/div/div[4]/div/div/span/span[1]/select'))
             month_selector.select_by_value(str(rand_month))
-            day_selector = Select(self.__driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div[1]/div/div[4]/div/div/span/span[2]/select'))
+            self.__driver.implicitly_wait(2)
+            day_selector = Select(self.__driver.find_element_by_xpath(
+                '//*[@id="react-root"]/section/main/div/div/div[1]/div/div[4]/div/div/span/span[2]/select'))
             day_selector.select_by_value(str(rand_day))
-            year_selector = Select(self.__driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div[1]/div/div[4]/div/div/span/span[3]/select'))
+            self.__driver.implicitly_wait(2)
+            year_selector = Select(self.__driver.find_element_by_xpath(
+                '//*[@id="react-root"]/section/main/div/div/div[1]/div/div[4]/div/div/span/span[3]/select'))
             year_selector.select_by_value(str(rand_year))
-            self.__driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div[1]/div/div[6]/button').click()
-            self.__my_mail.check_emails()
+            self.__driver.find_element_by_xpath(
+                '//*[@id="react-root"]/section/main/div/div/div[1]/div/div[6]/button').click()
+            check_mail = self.__my_mail.check_emails()
+            while not check_mail:
+                check_mail = self.__my_mail.check_emails()
             self.__my_mail.read_emails()
             the_content = self.__my_mail.get_content()
             print(the_content)
