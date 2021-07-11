@@ -56,7 +56,7 @@ class TempMail:
             for email_xpath in self.__emails_xpath:
                 self.__driver.execute_script("window.scrollTo(0, 500)")
                 self.__driver.find_element_by_xpath(email_xpath).click()
-                time.sleep(3)
+                time.sleep(2)
                 cur_email_subject = self.__driver.find_element_by_xpath(
                     '//*[@id="tm-body"]/main/div[1]/div/div[2]/div[2]/div/div[1]/div/div[2]/div[2]/h4').text
                 # cur_email_body = self.__driver.find_element_by_xpath(

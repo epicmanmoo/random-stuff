@@ -61,8 +61,11 @@ class Instagram:
             while not check_mail:
                 check_mail = self.__my_mail.check_emails()
             self.__my_mail.read_emails()
-            the_content = self.__my_mail.get_content()
-            print(the_content)
+            content = self.__my_mail.get_content()[0]
+            content_subject = content[0]
+            verification_code = content_subject.split()[0]
+            self.__driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div[1]/div[2]/form/div/div[1]/input').send_keys(verification_code)
+            self.__driver.find_element_by_xpath('//*[@id="react-root"]/section/main/div/div/div[1]/div[2]/form/div/div[2]/button').click()
         else:
             self.__driver.get('https://www.instagram.com/accounts/emailsignup/')
             time.sleep(1)
@@ -72,5 +75,5 @@ class Instagram:
         info = [[self.__username, self.__password, self.__name, self.__my_mail.get_email_address()]]
         return info
 
-    def __del__(self):
-        self.__driver.close()
+    # def __del__(self):
+    #     self.__driver.close()
